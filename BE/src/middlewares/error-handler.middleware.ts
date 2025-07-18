@@ -8,14 +8,17 @@ import { ERROR_MESSAGES, HTTP_STATUS_CODE,
  } from '@/utils';
  import { ZodError } from 'zod';
 import { config } from '@/config';
-export const errorHandler = (err: Error, _req: Request, res: Response, _next: NextFunction) => {
+export const errorHandler = (err: Error, req: Request, res: Response, _next: NextFunction) => {
     let response: IErrorResponse = {
         statusCode: HTTP_STATUS_CODE.INTERNAL_SERVER_ERROR,
         message: err.message || ERROR_MESSAGES.INTERNAL_SERVER_ERROR,
     };
 
-    // TODO: rollback the transaction
-    // TODO: and dont forget to commit the transaction if it is successful
+
+    if(req.session) {
+        req.session.abortTransaction();
+        req.session.endSession();
+    }
 
     if (err instanceof ZodError) {
         response = handleZodError(err);

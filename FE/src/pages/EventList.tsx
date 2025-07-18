@@ -112,9 +112,8 @@ const EventList: React.FC = () => {
         setIsLoadingTags(false);
       }
     }
-    if (tags.length > 0) return;
-      fetchTags();
-  }, [tags]);
+    fetchTags();
+  }, []);
 
   // init and pagination for Events
   useEffect(() => {
