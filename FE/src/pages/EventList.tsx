@@ -114,7 +114,7 @@ const EventList: React.FC = () => {
     }
     if (tags.length > 0) return;
       fetchTags();
-  }, [tags]);
+  }, []);
 
   // init and pagination for Events
   useEffect(() => {
